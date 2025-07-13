@@ -10,5 +10,4 @@ wheels/
 .venv
 .env
 .zen
-data\salaries.csv
 .vscode
