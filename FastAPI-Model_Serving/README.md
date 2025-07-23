@@ -5,7 +5,7 @@ This project demonstrates how to deploy a machine learning model using **FastAPI
 ## 📹 YouTube Video
 
 📺 **Watch the Full Tutorial Here**  
-[![Thumbnail](image/thumbnail.png)](https://youtu.be/YBn9zpyhMgU)
+[![Thumbnail](image/thumbnail.png)](https://www.youtube.com/watch?v=YBn9zpyhMgU)
 ## 🧰 Tech Stack
 
 - Python
