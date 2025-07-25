@@ -3,6 +3,8 @@ import pandas as pd
 from zenml import step
 from src.feature_engineering import CatBoostEncoding, MinMaxScaling
 import numpy as np
+import pickle
+import os
 
 
 @step
@@ -61,6 +63,24 @@ def feature_engineering_step(
     X_train_for_fit = X_train_scaled.copy()
     X_train_for_fit["salary_in_usd"] = y_train.values
     feature_strategy.fit(X_train_for_fit)
+    
+    
+    # Create 'artifacts' directory if it doesn't exist
+    artifacts_dir = "artifacts"
+    if not os.path.exists(artifacts_dir):
+        os.makedirs(artifacts_dir)
+    
+    # Save the fitted scaler
+    year_scaler_path = os.path.join(artifacts_dir, "year_scaler.pkl")
+    with open(year_scaler_path, "wb") as f:
+        pickle.dump(year_scaler, f)
+    logging.info(f"Saved year_scaler to {year_scaler_path}")
+
+    # Save the fitted feature strategy
+    feature_strategy_path = os.path.join(artifacts_dir, "feature_strategy.pkl")
+    with open(feature_strategy_path, "wb") as f:
+        pickle.dump(feature_strategy, f)
+    logging.info(f"Saved feature_strategy to {feature_strategy_path}")
 
     logging.info("Transforming training and testing data.")
     X_train_transformed = feature_strategy.transform(X_train_scaled)  # transform original scaled data

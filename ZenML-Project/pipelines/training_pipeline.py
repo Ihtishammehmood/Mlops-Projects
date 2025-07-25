@@ -35,9 +35,6 @@ def ml_pipeline():
         X_train, X_test, y_train, y_test
     )
     
-    # The target variable can also be transformed if needed (e.g., log transform)
-    # y_train_transformed = np.log1p(y_train)
-    # y_test_transformed = np.log1p(y_test)
 
     # 4. Model Building Step
     model = model_building_step(X_train=X_train_transformed, y_train=y_train)
@@ -46,6 +43,9 @@ def ml_pipeline():
     model_evaluator_step(
         trained_model=model, X_test=X_test_transformed, y_test=y_test
     )
+    
+    return model
+    
 
 
 if __name__ == "__main__":

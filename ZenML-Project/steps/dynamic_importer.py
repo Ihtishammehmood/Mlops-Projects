@@ -3,7 +3,7 @@ from zenml import step
 
 
 @step
-def dynamic_importer() -> str:
+def dynamic_importer(path:str) -> str:
     """Dynamically imports data for testing out the model."""
     # Sample data that matches the training schema for salary prediction
     # data = {
@@ -17,7 +17,20 @@ def dynamic_importer() -> str:
     #     "company_size": ["L", "M"],
     # }
 
-    df = pd.read_csv("extracted_data/salaries.csv").sample(10)
+    df = pd.read_csv(path).sample(10)
+    expected_columns = [
+        'work_year',
+        'experience_level',
+        'employment_type',
+        'job_title',
+        'salary_in_usd',
+        'employee_residence',
+        'remote_ratio',
+        'company_location',
+        'company_size']
+    
+    # add expected columns only to dataframe
+    df = df[expected_columns]
 
     # Convert the DataFrame to a JSON string
     json_data = df.to_json(orient="split")
