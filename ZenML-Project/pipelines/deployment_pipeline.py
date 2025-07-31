@@ -4,12 +4,11 @@ from pipelines.training_pipeline import ml_pipeline
 from steps.dynamic_importer import dynamic_importer
 # from steps.model_loader import model_loader
 from steps.prediction_service_loader import prediction_service_loader
-from steps.data_preprocessor import data_preprocessor
+# from steps.data_preprocessor import data_preprocessor
 from steps.predictor import predictor
 from zenml import pipeline
 from zenml.integrations.mlflow.steps import mlflow_model_deployer_step
 
-# requirements_file = os.path.join(os.path.dirname(__file__), "requirements.txt")
 
 
 @pipeline
@@ -28,7 +27,7 @@ def inference_pipeline():
     """Run a batch inference job with data loaded from an API."""
     # Load batch data for inference
     batch_data = dynamic_importer('extracted_data/salaries.csv') # sampling from existing data for inference
-    preprocessed_data = data_preprocessor(batch_data)
+    # preprocessed_data = data_preprocessor(batch_data)
 
     # Load the deployed model service
     model_deployment_service = prediction_service_loader(
@@ -37,4 +36,4 @@ def inference_pipeline():
     )
 
     # Run predictions on the batch data
-    predictor(service=model_deployment_service, input_data=preprocessed_data)
+    predictor(service=model_deployment_service, input_data=batch_data)

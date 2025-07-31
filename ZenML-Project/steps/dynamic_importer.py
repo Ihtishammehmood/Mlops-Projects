@@ -1,21 +1,11 @@
 import pandas as pd
 from zenml import step
-
+from steps.data_preprocessor import data_preprocessor
+import json
 
 @step
 def dynamic_importer(path:str) -> str:
     """Dynamically imports data for testing out the model."""
-    # Sample data that matches the training schema for salary prediction
-    # data = {
-    #     "work_year": [2023, 2022],
-    #     "experience_level": ["SE", "MI"],
-    #     "employment_type": ["FT", "CT"],
-    #     "job_title": ["Data Scientist", "Data Engineer"],
-    #     "employee_residence": ["US", "GB"],
-    #     "remote_ratio": [100, 50],
-    #     "company_location": ["US", "GB"],
-    #     "company_size": ["L", "M"],
-    # }
 
     df = pd.read_csv(path).sample(10)
     expected_columns = [
@@ -23,7 +13,6 @@ def dynamic_importer(path:str) -> str:
         'experience_level',
         'employment_type',
         'job_title',
-        'salary_in_usd',
         'employee_residence',
         'remote_ratio',
         'company_location',
@@ -34,4 +23,8 @@ def dynamic_importer(path:str) -> str:
 
     # Convert the DataFrame to a JSON string
     json_data = df.to_json(orient="split")
-    return json_data
+
+    # apply all the expected transformations to the dataframe
+    transformed_data  = data_preprocessor(json_data=json_data)
+
+    return transformed_data

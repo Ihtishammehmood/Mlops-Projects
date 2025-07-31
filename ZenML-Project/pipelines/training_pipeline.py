@@ -13,7 +13,6 @@ from zenml import Model, pipeline
 
 @pipeline(
     model=Model(
-        # The name uniquely identifies this model
         name="salary_predictor"
     ),
 )

@@ -51,9 +51,9 @@ def feature_engineering_step(
         'employment_type',
         'job_title',
         'employee_residence',
+        'work_status',  # This is the renamed 'remote_ratio'
         'company_location',
-        'company_size',
-        'work_status'
+        'company_size'
     ]
     feature_strategy = CatBoostEncoding(features=features_to_encode, target="salary_in_usd")
 
