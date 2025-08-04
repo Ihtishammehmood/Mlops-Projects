@@ -1,11 +1,15 @@
+# steps/data_preprocessor.py
 import pandas as pd
 import pickle
 import logging
-# import json
-
-def data_preprocessor(json_data: str) -> str:
+# import json # No longer needed
+from zenml import step
+import numpy as np
+@step
+def data_preprocessor(df: pd.DataFrame) -> pd.DataFrame:
     """
     Loads the fitted scaler and encoder, and preprocesses the input data.
+    Returns a DataFrame with the required column names.
     """
     logging.basicConfig(level=logging.INFO)
     logging.info("Loading fitted scaler and encoder...")
@@ -31,7 +35,7 @@ def data_preprocessor(json_data: str) -> str:
         raise
 
     # Load the data from json
-    df = pd.read_json(json_data, orient="split")
+    # df = pd.read_json(json_data, orient="split") # Take DF as input instead
 
     # Preprocess the data
     df = df.rename(columns={'remote_ratio': 'work_status'})
@@ -44,7 +48,7 @@ def data_preprocessor(json_data: str) -> str:
 
     # Scale 'work_year' column
     df['work_year'] = year_scaler.transform(df[['work_year']])
-    
+
     features_to_encode = [
         'experience_level',
         'employment_type',
@@ -57,9 +61,20 @@ def data_preprocessor(json_data: str) -> str:
 
     # Transform the data using feature strategy
     df[features_to_encode] = feature_strategy.transform(df[features_to_encode])
-    
+
     # convert the data back to json format
-    df_transformed = df.to_json(orient="split")
+    # df_transformed = df.to_json(orient="split") # No longer needed
 
     logging.info("Data preprocessing complete.")
-    return df_transformed
+    # Ensure columns are in the expected order
+    expected_columns = [
+        'work_year',
+        'experience_level',
+        'employment_type',
+        'job_title',
+        'employee_residence',
+        'work_status',
+        'company_location',
+        'company_size'
+    ]
+    return df[expected_columns]

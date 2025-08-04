@@ -1,42 +1,28 @@
-import os
+import requests
+import pandas as pd
+from steps.data_preprocessor import data_preprocessor
 
-from pipelines.training_pipeline import ml_pipeline
-from steps.dynamic_importer import dynamic_importer
-# from steps.model_loader import model_loader
-from steps.prediction_service_loader import prediction_service_loader
-# from steps.data_preprocessor import data_preprocessor
-from steps.predictor import predictor
-from zenml import pipeline
-from zenml.integrations.mlflow.steps import mlflow_model_deployer_step
+input_data = {
+    "dataframe_records": [
+        {
+            "work_year": 2025,
+            "experience_level": "EN",
+            "employment_type": "FT",
+            "job_title": "Applied Scientist",
+            "employee_residence": "US",
+            "remote_ratio": 0,
+            "company_location": "US",
+            "company_size": "M",
+        }
+    ]
+}
 
-
-
-# def continuous_deployment_pipeline():
-#     """Run a training job and deploy an MLflow model deployment."""
-#     # Run the training pipeline
-#     trained_model = ml_pipeline()  # No need for is_promoted return value anymore
-#     # trained_model = model_loader('salary_predictor')
-    
-#     # (Re)deploy the trained model
-#     mlflow_model_deployer_step(workers=3, deploy_decision=True, model=trained_model)
-
-
-def inference_pipeline():
-    """Run a batch inference job with data loaded from an API."""
-    # Load batch data for inference
-    batch_data = dynamic_importer('extracted_data/salaries.csv') # sampling from existing data for inference
-    # preprocessed_data = data_preprocessor(batch_data)
-
-    # Load the deployed model service
-    model_deployment_service = prediction_service_loader(
-        pipeline_name="continuous_deployment_pipeline",
-        step_name="mlflow_model_deployer_step",
-    )
-
-    # Run predictions on the batch data
-    prediction = predictor(service=model_deployment_service, input_data=batch_data)
-    print(prediction) # print the prediction results
+df = pd.DataFrame(input_data["dataframe_records"])
+preprocessed = data_preprocessor(df)  # returns DataFrame with proper columns
+payload = {
+    "inputs": preprocessed.to_dict(orient="records")[0]
+}
 
 
 if __name__ == "__main__":
-    inference_pipeline()
+    print(payload)

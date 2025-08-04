@@ -3,7 +3,7 @@
 .gitignore
 
 # Docker
-Dockerfile
+dockerfile
 .dockerignore
 
 # Python cache + builds
