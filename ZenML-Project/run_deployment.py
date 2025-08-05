@@ -1,12 +1,12 @@
 import click
-from pipelines.deployment_pipeline import (
-    continuous_deployment_pipeline,
-    # inference_pipeline,
-)
 from rich import print
 from zenml.integrations.mlflow.mlflow_utils import get_tracking_uri
 from zenml.integrations.mlflow.model_deployers.mlflow_model_deployer import (
     MLFlowModelDeployer,
+)
+
+from pipelines.deployment_pipeline import (
+    continuous_deployment_pipeline,
 )
 
 
@@ -42,10 +42,6 @@ def run_main(stop_service: bool):
 
     # Get the active model deployer
     model_deployer = MLFlowModelDeployer.get_active_model_deployer()
-
-    # Run the inference pipeline
-    # inference_pipeline()
-
     print(
         "Now run \n "
         f"    mlflow ui --backend-store-uri {get_tracking_uri()}\n"

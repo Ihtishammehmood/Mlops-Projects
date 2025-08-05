@@ -1,5 +1,6 @@
-import requests
 import pandas as pd
+import requests
+
 from steps.data_preprocessor import data_preprocessor
 
 input_data = {
@@ -19,9 +20,7 @@ input_data = {
 
 df = pd.DataFrame(input_data["dataframe_records"])
 preprocessed = data_preprocessor(df)  # returns DataFrame with proper columns
-payload = {
-    "inputs": preprocessed.to_dict(orient="records")[0]
-}
+payload = {"inputs": preprocessed.to_dict(orient="records")[0]}
 response = requests.post(
     url="http://127.0.0.1:8000/invocations",
     json=payload,

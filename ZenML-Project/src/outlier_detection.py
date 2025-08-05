@@ -7,7 +7,10 @@ import pandas as pd
 import seaborn as sns
 
 # Setup logging configuration
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
 
 # Abstract Base Class for Outlier Detection Strategy
 class OutlierDetectionStrategy(ABC):
@@ -63,16 +66,22 @@ class OutlierDetector:
         logging.info("Executing outlier detection strategy.")
         return self._strategy.detect_outliers(df)
 
-    def handle_outliers(self, df: pd.DataFrame, method="remove", **kwargs) -> pd.DataFrame:
+    def handle_outliers(
+        self, df: pd.DataFrame, method="remove", **kwargs
+    ) -> pd.DataFrame:
         outliers = self.detect_outliers(df)
         if method == "remove":
             logging.info("Removing outliers from the dataset.")
             df_cleaned = df[(~outliers).all(axis=1)]
         elif method == "cap":
             logging.info("Capping outliers in the dataset.")
-            df_cleaned = df.clip(lower=df.quantile(0.01), upper=df.quantile(0.99), axis=1)
+            df_cleaned = df.clip(
+                lower=df.quantile(0.01), upper=df.quantile(0.99), axis=1
+            )
         else:
-            logging.warning(f"Unknown method '{method}'. No outlier handling performed.")
+            logging.warning(
+                f"Unknown method '{method}'. No outlier handling performed."
+            )
             return df
 
         logging.info("Outlier handling completed.")
@@ -88,38 +97,5 @@ class OutlierDetector:
         logging.info("Outlier visualization completed.")
 
 
-# Example usage
 if __name__ == "__main__":
-    # # Example dataframe
-    # df = pd.read_csv("../extracted_data/AmesHousing.csv")
-    # df_numeric = df.select_dtypes(include=[np.number]).dropna()
-
-    # # Initialize the OutlierDetector with the Z-Score based Outlier Detection Strategy
-    # outlier_detector = OutlierDetector(ZScoreOutlierDetection(threshold=3))
-
-    # # Detect and handle outliers
-    # outliers = outlier_detector.detect_outliers(df_numeric)
-    # df_cleaned = outlier_detector.handle_outliers(df_numeric, method="remove")
-
-    # print(df_cleaned.shape)
-    # # Visualize outliers in specific features
-    # # outlier_detector.visualize_outliers(df_cleaned, features=["SalePrice", "Gr Liv Area"])
     pass
-
-
-#    SalePrice  Gr Liv Area
-# 0     200000        1500
-# 1     300000        2000
-# 2     400000        2500
-# 3     500000        3000
-# 4    1000000        4000
-# 5    2000000       10000
-
-
-#    SalePrice  Gr Liv Area
-# 0     200000        1500
-# 1     300000        2000
-# 2     400000        2500
-# 3     500000        3000
-# 4    1000000        4000
-# 5    1000000        4000

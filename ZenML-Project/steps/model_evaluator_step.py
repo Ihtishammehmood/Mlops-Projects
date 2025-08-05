@@ -3,8 +3,9 @@ from typing import Tuple
 
 import pandas as pd
 from sklearn.pipeline import Pipeline
-from src.model_evaluator import ModelEvaluator, RegressionModelEvaluationStrategy
 from zenml import step
+
+from src.model_evaluator import ModelEvaluator, RegressionModelEvaluationStrategy
 
 
 @step(enable_cache=False)
@@ -29,9 +30,6 @@ def model_evaluator_step(
         raise TypeError("y_test must be a pandas Series.")
 
     logging.info("Applying the same preprocessing to the test data.")
-
-    # Apply the preprocessing and model prediction
-    # X_test_processed = trained_model.named_steps["preprocessor"].transform(X_test)
 
     # Initialize the evaluator with the regression strategy
     evaluator = ModelEvaluator(strategy=RegressionModelEvaluationStrategy())

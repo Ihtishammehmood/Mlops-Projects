@@ -8,22 +8,16 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     pip install uv
 
-# This line from your original file can be removed if zenml and mlflow are in requirements.txt
-# RUN uv pip install --system zenml mlflow
 
 COPY . /app
 
-# (Optional) Install additional requirements
-# This step will now succeed because build-essential is installed
 RUN uv pip install --system -r requirements.txt
 
-# Initialize ZenML repository
+
 RUN zenml init
 
-# Install ZenML integrations
 RUN zenml integration install mlflow --uv -y
 
-# Register experiment tracker and model deployer, and set up stack
 RUN zenml experiment-tracker register mlflow_tracker --flavor=mlflow && \
     zenml model-deployer register mlflow --flavor=mlflow && \
     zenml stack register local-mlflow-stack -a default -o default -d mlflow -e mlflow_tracker --set
