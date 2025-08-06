@@ -1,28 +1,20 @@
-import requests
 import pandas as pd
-from steps.data_preprocessor import data_preprocessor
+import json
 
-input_data = {
-    "dataframe_records": [
-        {
-            "work_year": 2025,
-            "experience_level": "EN",
-            "employment_type": "FT",
-            "job_title": "Applied Scientist",
-            "employee_residence": "US",
-            "remote_ratio": 0,
-            "company_location": "US",
-            "company_size": "M",
-        }
-    ]
-}
+df = pd.read_csv('extracted_data/salaries.csv')
 
-df = pd.DataFrame(input_data["dataframe_records"])
-preprocessed = data_preprocessor(df)  # returns DataFrame with proper columns
-payload = {
-    "inputs": preprocessed.to_dict(orient="records")[0]
-}
-
+def unique_values(data):
+    
+    result = {}
+    columns_names = ['work_year', 'experience_level', 'employment_type', 'job_title',
+                     'employee_residence', 'work_status', 'company_location', 'company_size']
+    for col in data.columns:
+        if col in columns_names:
+            result[col] = data[col].unique().tolist()  # Convert NumPy array to list
+    return result
 
 if __name__ == "__main__":
-    print(payload)
+    unique_vals = unique_values(df)
+    print(unique_vals)
+    with open("unique_values.json", "w") as outfile:
+        json.dump(unique_vals, outfile, indent=4)

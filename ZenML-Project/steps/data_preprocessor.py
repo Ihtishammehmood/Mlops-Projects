@@ -2,10 +2,10 @@ import logging
 import pickle
 
 import pandas as pd
-from zenml import step
+# from zenml import step
 
 
-@step
+
 def data_preprocessor(df: pd.DataFrame) -> pd.DataFrame:
     """
     Loads the fitted scaler and encoder, and preprocesses the input data.

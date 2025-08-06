@@ -15,6 +15,8 @@ def feature_engineering_step(
 ) -> tuple[
     pd.DataFrame,
     pd.DataFrame,
+    pd.Series,
+    pd.Series,
 ]:
     """
     Feature engineering step that fits on training data and transforms both
@@ -80,4 +82,4 @@ def feature_engineering_step(
     X_train_transformed = feature_strategy.transform(X_train_scaled)
     X_test_transformed = feature_strategy.transform(X_test_scaled)
 
-    return X_train_transformed, X_test_transformed
+    return X_train_transformed, X_test_transformed, y_train, y_test

@@ -1,6 +1,6 @@
 import pandas as pd
 import requests
-
+import numpy as np
 from steps.data_preprocessor import data_preprocessor
 
 input_data = {
@@ -25,4 +25,5 @@ response = requests.post(
     url="http://127.0.0.1:8000/invocations",
     json=payload,
 )
-print(response.json())
+predicted_salary = np.exp(response.json()["predictions"][0])
+print(predicted_salary)

@@ -23,6 +23,6 @@ RUN zenml experiment-tracker register mlflow_tracker --flavor=mlflow && \
     zenml stack register local-mlflow-stack -a default -o default -d mlflow -e mlflow_tracker --set
 
 EXPOSE  8000
-  
-# CMD ["uv", "run", "run_deployment.py"]
-CMD ["sh", "-c", "uv run run_deployment.py; sleep infinity"]
+
+CMD ["uv", "run", "run_deployment.py"]
+# CMD ["sh", "-c", "uv run run_deployment.py; sleep infinity"]

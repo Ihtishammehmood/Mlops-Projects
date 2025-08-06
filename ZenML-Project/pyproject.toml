@@ -6,5 +6,6 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "category-encoders>=2.8.1",
+    "streamlit>=1.47.1",
     "zenml[server]>=0.84.1",
 ]

@@ -23,15 +23,15 @@ def ml_pipeline():
     )
 
     # 3. Feature Engineering Step (Fit on Train, Transform Train & Test)
-    X_train_transformed, X_test_transformed = feature_engineering_step(
+    X_train_transformed, X_test_transformed, y_train_log, y_test_log = feature_engineering_step(
         X_train, X_test, y_train, y_test
     )
 
     # 4. Model Building Step
-    model = model_building_step(X_train=X_train_transformed, y_train=y_train)
+    model = model_building_step(X_train=X_train_transformed, y_train=y_train_log)
 
     # 5. Model Evaluation Step
-    model_evaluator_step(trained_model=model, X_test=X_test_transformed, y_test=y_test)
+    model_evaluator_step(trained_model=model, X_test=X_test_transformed, y_test=y_test_log)
 
     return model
 
