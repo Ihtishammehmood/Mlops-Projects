@@ -1,9 +1,11 @@
 import logging
 from typing import Annotated
+import joblib
 
 import mlflow
 import pandas as pd
-from sklearn.linear_model import LinearRegression
+# from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.pipeline import Pipeline
 from zenml import ArtifactConfig, Model, step
 from zenml.client import Client
@@ -49,7 +51,15 @@ def model_building_step(
     logging.info(f"Categorical columns: {categorical_cols.tolist()}")
     logging.info(f"Numerical columns: {numerical_cols.tolist()}")
 
-    lr = LinearRegression()
+    # lr = LinearRegression()
+    rf = RandomForestRegressor(n_estimators=200,
+                               max_depth = 15,
+                               min_samples_split = 5,
+                               min_samples_leaf = 2,
+                               max_features = 'sqrt',
+                               bootstrap = True,
+                               n_jobs = -1,
+                               random_state=42)
 
     # Start an MLflow run to log the model training process
     if not mlflow.active_run():
@@ -59,8 +69,8 @@ def model_building_step(
         # Enable autologging for scikit-learn to automatically capture model metrics, parameters, and artifacts
         mlflow.sklearn.autolog()
 
-        logging.info("Building and training the Linear Regression model.")
-        lr.fit(X_train, y_train)
+        logging.info("Building and training the model.")
+        rf.fit(X_train, y_train)
         logging.info("Model training completed.")
 
         # Log the columns that the model expects
@@ -75,6 +85,7 @@ def model_building_step(
         # End the MLflow run
         mlflow.end_run()
 
-    pipeline = Pipeline(steps=[("model", lr)])
+    pipeline = Pipeline(steps=[("model", rf)])
+    joblib.dump(pipeline, "artifacts/model_trainer.pkl")
 
     return pipeline

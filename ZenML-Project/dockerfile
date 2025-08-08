@@ -22,7 +22,10 @@ RUN zenml experiment-tracker register mlflow_tracker --flavor=mlflow && \
     zenml model-deployer register mlflow --flavor=mlflow && \
     zenml stack register local-mlflow-stack -a default -o default -d mlflow -e mlflow_tracker --set
 
-EXPOSE  8000
 
-CMD ["uv", "run", "run_deployment.py"]
+# CMD ["uv", "run", "run_deployment.py"]
 # CMD ["sh", "-c", "uv run run_deployment.py; sleep infinity"]
+
+EXPOSE 8501 8000
+
+CMD ["uv", "run", "streamlit", "run", "client.py", "--server.port=8501", "--server.address=0.0.0.0"]
