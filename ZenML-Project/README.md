@@ -1,5 +1,12 @@
 # ZenML Machine Learning Pipeline Project
 
+<!-- ![see full youtube video](img/thumbnail.png) -->
+
+[![Watch the video](img\thumbnail.png)](https://youtu.be/u4abaCGGEus?si=5WClkaBQT3au0ezJ)
+
+# [Watch Full Youtube Video](https://youtu.be/u4abaCGGEus?si=5WClkaBQT3au0ezJ)
+
+
 This project implements a machine learning pipeline using ZenML for orchestration, MLflow for experiment tracking and model deployment.
 
 ## Project Overview
