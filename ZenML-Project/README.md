@@ -1,8 +1,8 @@
 # ZenML Machine Learning Pipeline Project
 
-<!-- ![see full youtube video](img/thumbnail.png) -->
+![see full youtube video](img/thumbnail.png)
 
-[![Watch the video](img\thumbnail.png)](https://youtu.be/u4abaCGGEus?si=5WClkaBQT3au0ezJ)
+<!-- [![Watch the video](img\thumbnail.png)](https://youtu.be/u4abaCGGEus?si=5WClkaBQT3au0ezJ) -->
 
 # [Watch Full Youtube Video](https://youtu.be/u4abaCGGEus?si=5WClkaBQT3au0ezJ)
 
